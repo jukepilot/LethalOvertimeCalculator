@@ -1,0 +1,275 @@
+/* ── Custom font ────────────────────────────────────── */
+@font-face {
+    font-family: "3270-Regular";
+    src: url("assets/3270-Regular.ttf") format("truetype");
+}
+
+/* ── CSS Variables ──────────────────────────────────── */
+:root {
+    --phosphor:      #00ff41;
+    --phosphor-dim:  #00b82e;
+    --phosphor-dark: #003d0d;
+    --phosphor-glow: rgba(0, 255, 65, 0.45);
+    --screen-bg:     #00090a;
+}
+
+/* ── Reset ──────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: var(--screen-bg);
+}
+
+/* ── CRT Screen ─────────────────────────────────────── */
+.crt-screen {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: var(--screen-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    background-image:
+        radial-gradient(ellipse 100% 70% at 50% 0%,  rgba(0,255,65,.04) 0%, transparent 70%),
+        radial-gradient(ellipse 100% 50% at 50% 100%, rgba(0,0,0,.5)     0%, transparent 100%);
+
+    animation: flicker 8s step-end infinite;
+}
+
+@keyframes flicker {
+    0%,  2%,  4%,  100% { opacity: 1;   }
+    1%,  3%             { opacity: .96; }
+    80%                 { opacity: 1;   }
+    80.5%               { opacity: .88; }
+    81%                 { opacity: 1;   }
+    93%                 { opacity: 1;   }
+    93.3%               { opacity: .92; }
+    93.6%               { opacity: 1;   }
+}
+
+/* ── Scanlines ──────────────────────────────────────── */
+.scanlines {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent      0px,
+        transparent      2px,
+        rgba(0,0,0,.20)  2px,
+        rgba(0,0,0,.20)  4px
+    );
+    z-index: 10;
+}
+
+/* ── Vignette ───────────────────────────────────────── */
+.vignette {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(
+        ellipse 90% 85% at 50% 50%,
+        transparent 55%,
+        rgba(0,0,0,.65) 100%
+    );
+    z-index: 11;
+}
+
+/* ── Shared font / color ────────────────────────────── */
+* {
+    font-family: "3270-Regular", monospace;
+    color: var(--phosphor);
+    background-color: transparent;
+}
+
+/* ── Separator ──────────────────────────────────────── */
+.separator {
+    color: var(--phosphor-dim);
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    letter-spacing: .3em;
+    text-shadow: 0 0 8px var(--phosphor-glow);
+    text-align: center;
+    width: 100%;
+    padding: 6px 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* ── Main column ────────────────────────────────────── */
+.panel-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* ── Input row ──────────────────────────────────────── */
+.panel-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    width: 100%;
+}
+
+/* ── Child panels ───────────────────────────────────── */
+.child {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5vh 5vw;
+    gap: 1.2vh;
+}
+
+/* ── Field label ────────────────────────────────────── */
+.field-label {
+    font-size: clamp(1rem, 2.4vw, 1.5rem);
+    letter-spacing: .22em;
+    color: var(--phosphor-dim);
+    text-align: center;
+    line-height: 1.5;
+    text-shadow: 0 0 10px var(--phosphor-glow);
+    /* Fixed 2-line height keeps inputs vertically aligned */
+    min-height: 3em;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+/* ── Field body ─────────────────────────────────────── */
+.field-body {
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* ── Inputs ─────────────────────────────────────────── */
+.input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--phosphor-dim);
+    color: var(--phosphor);
+    font-family: "3270-Regular", monospace;
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    text-align: center;
+    width: auto;
+    min-width: 4ch;
+    padding: 2px 10px;
+    outline: none;
+    caret-color: var(--phosphor);
+    text-shadow: 0 0 8px var(--phosphor-glow), 0 0 20px var(--phosphor-glow);
+    transition: border-color .15s, box-shadow .15s;
+    -moz-appearance: textfield;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.input:hover {
+    border-bottom-color: var(--phosphor);
+}
+
+.input:focus-visible {
+    outline: none;
+    border-bottom: 2px solid var(--phosphor);
+    box-shadow: 0 4px 0 -2px var(--phosphor-glow);
+}
+
+/* ── Slash ──────────────────────────────────────────── */
+.slash {
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    color: var(--phosphor-dim);
+    text-shadow: 0 0 8px var(--phosphor-glow);
+    margin: 0 8px;
+}
+
+/* ── Field sub-label ────────────────────────────────── */
+.field-sub {
+    font-size: clamp(0.7rem, 1.6vw, 1.1rem);
+    letter-spacing: .22em;
+    color: #00662a;
+    text-align: center;
+    margin-top: auto;
+}
+
+/* ── Vertical divider ───────────────────────────────── */
+.divider {
+    color: #00662a;
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    opacity: .6;
+    text-shadow: 0 0 10px var(--phosphor-glow);
+    padding: 0 6px;
+    user-select: none;
+}
+
+/* ── Overtime result ────────────────────────────────── */
+#overtime {
+    font-size: clamp(3.5rem, 9vw, 6.5rem);
+    color: var(--phosphor);
+    letter-spacing: .06em;
+    text-shadow:
+        0 0  8px var(--phosphor-glow),
+        0 0 28px var(--phosphor-glow),
+        0 0 55px rgba(0,255,65,.25);
+    animation: value-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes value-pulse {
+    0%, 100% { text-shadow:
+        0 0  8px var(--phosphor-glow),
+        0 0 28px var(--phosphor-glow),
+        0 0 55px rgba(0,255,65,.2); }
+    50%       { text-shadow:
+        0 0 12px var(--phosphor-glow),
+        0 0 36px var(--phosphor-glow),
+        0 0 70px rgba(0,255,65,.38); }
+}
+
+/* ── Credit footer (sticky to bottom) ──────────────── */
+h4 {
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(0.65rem, 1.4vw, 1rem);
+    letter-spacing: .18em;
+    font-weight: normal;
+    color: #00662a;
+    white-space: nowrap;
+    z-index: 20;
+}
+
+h4 a {
+    color: var(--phosphor-dim);
+    text-decoration: none;
+    text-shadow: 0 0 8px var(--phosphor-glow);
+    transition: color .15s, text-shadow .15s;
+}
+
+h4 a:hover {
+    color: var(--phosphor);
+    text-shadow: 0 0 12px var(--phosphor-glow), 0 0 28px var(--phosphor-glow);
+}
+
+/* ── Screen-reader only ─────────────────────────────── */
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}

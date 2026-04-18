@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Overtime Calculator</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+
+        <div class="crt-screen">
+
+            <!-- Scanline overlay -->
+            <div class="scanlines" aria-hidden="true"></div>
+            <!-- Phosphor glow vignette -->
+            <div class="vignette" aria-hidden="true"></div>
+
+            <main class="panel-col">
+
+                <div class="panel-row">
+
+                    <div class="child">
+                        <div class="field-label">PROFIT QUOTA</div>
+                        <div class="field-body">
+                            <input value="250" class="input" maxlength="10" id="totalSoldInput"
+                                   name="Total sold" size="3">
+                            <span class="slash">/</span>
+                            <!-- <br> -->
+                            <input value="130" class="input" maxlength="10" id="quotaInput"
+                                   name="Quota" size="3">
+                        </div>
+                        <div class="field-sub">SOLD / QUOTA</div>
+                    </div>
+
+                    <div class="divider" aria-hidden="true">┃</div>
+
+                    <div class="child">
+                        <div class="field-label">DEADLINE</div>
+                        <div class="field-body">
+                            <label for="deadlineDaysInput" class="sr-only">Days until deadline</label>
+                            <input value="0" class="input" type="number" size="2"
+                                   id="deadlineDaysInput" name="Days until deadline" min="0" max="3">
+                        </div>
+                        <div class="field-sub">DAYS REMAINING</div>
+                    </div>
+
+                </div>
+
+                <div class="separator">- - - - - - - - - - - - - - - - - - - -</div>
+
+                <div class="child">
+                    <div class="field-label">OVERTIME<br>BONUS</div>
+                    <div class="field-body">
+                        <div id="overtime">$9</div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <script src="main.js"></script>
+    </body>
+</html>
